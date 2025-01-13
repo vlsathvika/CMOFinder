@@ -3,7 +3,8 @@ import webbrowser
 import requests
 import csv
 
-
+# Load the password and API key from Streamlit secrets
+APP_PASSWORD = st.secrets["app_password"]
 API_KEY = st.secrets["hunter_api_key"]
 
 def search_marketing_officer(company_name):
@@ -44,29 +45,36 @@ def save_to_csv(company_name, first_name, last_name, email):
 def main():
     st.title("Brandience Email Finding Tool")
     
-    company_name = st.text_input("Enter the company name:")
-    company_domain = st.text_input("Enter the company's domain (e.g., example.com):")
-    
-    if st.button("Search Marketing Officer"):
-        search_marketing_officer(company_name)
-    
-    first_name = st.text_input("Enter the first name of the prospect:")
-    last_name = st.text_input("Enter the last name of the prospect:")
-    
-    if st.button("Find Email"):
-        email = find_email(company_domain, first_name, last_name)
-        if email:
-            st.success(f"Email found: {email}")
-            result, score = verify_email(email)
-            if result:
-                st.info(f"Verification result: {result}")
-                st.info(f"Email accuracy score: {score}")
+    # Password protection
+    password = st.text_input("Enter the password:", type="password")
+    if password == APP_PASSWORD:
+        st.success("Access granted!")
+        
+        company_name = st.text_input("Enter the company name:")
+        company_domain = st.text_input("Enter the company's domain (e.g., example.com):")
+        
+        if st.button("Search Marketing Officer"):
+            search_marketing_officer(company_name)
+        
+        first_name = st.text_input("Enter the first name of the prospect:")
+        last_name = st.text_input("Enter the last name of the prospect:")
+        
+        if st.button("Find Email"):
+            email = find_email(company_domain, first_name, last_name)
+            if email:
+                st.success(f"Email found: {email}")
+                result, score = verify_email(email)
+                if result:
+                    st.info(f"Verification result: {result}")
+                    st.info(f"Email accuracy score: {score}")
+                else:
+                    st.warning("Verification failed.")
+                save_to_csv(company_name, first_name, last_name, email)
+                st.success("Details saved to marketing_officers.csv")
             else:
-                st.warning("Verification failed.")
-            save_to_csv(company_name, first_name, last_name, email)
-            st.success("Details saved to marketing_officers.csv")
-        else:
-            st.error("No email found for the given details")
+                st.error("No email found for the given details")
+    else:
+        st.error("Incorrect password. Access denied.")
 
 if __name__ == "__main__":
     main()
