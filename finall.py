@@ -2,8 +2,8 @@ import streamlit as st
 import webbrowser
 import requests
 
-# Your Hunter.io API key
-API_KEY = '3212e3787b41be2baa6f33125f633ccc6658d5d9'
+
+API_KEY = st.secrets["hunter_api_key"]
 
 def search_marketing_officer(company_name):
     queries = [
