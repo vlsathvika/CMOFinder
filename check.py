@@ -14,6 +14,9 @@ SECONDARY_COLOR = "#2B579A"  # Example secondary color from the logo palette
 import urllib.parse
 import streamlit as st
 
+import urllib.parse
+import streamlit as st
+
 def search_marketing_officer(company_name):
     queries = [
         f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:linkedin.com',
@@ -22,14 +25,14 @@ def search_marketing_officer(company_name):
         f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:rocketreach.co',
     ]
     
-    for idx, query in enumerate(queries):
+    for query in queries:
         # URL encode the query string
         encoded_query = urllib.parse.quote(query)
         google_search_url = f"https://www.google.com/search?q={encoded_query}"
         
-        # Create a button for each query
-        if st.button(f"Search for Marketing Officer on Query {idx+1}"):
-            st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to open the search results in a new tab</a>', unsafe_allow_html=True)
+        # Display the search URL as a clickable link
+        st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to search for {company_name} on Google</a>', unsafe_allow_html=True)
+
 
 
 
