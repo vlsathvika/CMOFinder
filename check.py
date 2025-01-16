@@ -1,6 +1,9 @@
 import streamlit as st
 import requests
 import csv
+import urllib.parse
+import streamlit as st
+
 from PIL import Image
 
 # Load the password and API key from Streamlit secrets
@@ -10,33 +13,22 @@ API_KEY = st.secrets["hunter_api_key"]
 # Branding colors
 PRIMARY_COLOR = "#0078D4"  # Example primary color from the logo palette
 SECONDARY_COLOR = "#2B579A"  # Example secondary color from the logo palette
-
-import urllib.parse
-import streamlit as st
-
-import urllib.parse
-import streamlit as st
-
 def search_marketing_officer(company_name):
+    # Define each query and the corresponding site name
     queries = [
-        f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:linkedin.com',
-        f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:crunchbase.com',
-        f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:zoominfo.com',
-        f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:rocketreach.co',
+        (f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:linkedin.com', "LinkedIn"),
+        (f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:crunchbase.com', "Crunchbase"),
+        (f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:zoominfo.com', "ZoomInfo"),
+        (f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:rocketreach.co', "RocketReach"),
     ]
     
-    for query in queries:
+    for query, site_name in queries:
         # URL encode the query string
         encoded_query = urllib.parse.quote(query)
         google_search_url = f"https://www.google.com/search?q={encoded_query}"
         
         # Display the search URL as a clickable link
-        st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to search for {company_name} on Google</a>', unsafe_allow_html=True)
-
-
-
-
-
+        st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to search on {site_name}</a>', unsafe_allow_html=True)
 
 def find_email(company_domain, first_name, last_name):
     url = f"https://api.hunter.io/v2/email-finder?domain={company_domain}&first_name={first_name}&last_name={last_name}&api_key={API_KEY}"
