@@ -11,6 +11,9 @@ API_KEY = st.secrets["hunter_api_key"]
 PRIMARY_COLOR = "#0078D4"  # Example primary color from the logo palette
 SECONDARY_COLOR = "#2B579A"  # Example secondary color from the logo palette
 
+import urllib.parse
+import streamlit as st
+
 def search_marketing_officer(company_name):
     queries = [
         f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:linkedin.com',
@@ -19,11 +22,15 @@ def search_marketing_officer(company_name):
         f'"{company_name}" "Chief Marketing Officer" OR "CMO" OR "Marketing Director" OR "Marketing Manager" OR "Marketing Assistant" OR "Marketing" OR "Sales" OR "current" OR "present" site:rocketreach.co',
     ]
     
-    for query in queries:
-        # Correctly format the URL with the search query
-        google_search_url = f"https://www.google.com/search?q={query}"
-        # Make the entire URL clickable
-        st.markdown(f'<a href="{google_search_url}" target="_blank">{google_search_url}</a>', unsafe_allow_html=True)
+    for idx, query in enumerate(queries):
+        # URL encode the query string
+        encoded_query = urllib.parse.quote(query)
+        google_search_url = f"https://www.google.com/search?q={encoded_query}"
+        
+        # Create a button for each query
+        if st.button(f"Search for Marketing Officer on Query {idx+1}"):
+            st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to open the search results in a new tab</a>', unsafe_allow_html=True)
+
 
 
 
