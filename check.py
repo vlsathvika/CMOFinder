@@ -20,8 +20,9 @@ def search_marketing_officer(company_name):
     ]
     
     for query in queries:
-        url = f"https://www.google.com/search?q={query}"
-        st.write(f"Search for {company_name} on Google")
+        google_search_url = f"https://www.google.com/search?q={query}"
+        st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to search for "{company_name}" on Google</a>', unsafe_allow_html=True)
+
 
 def find_email(company_domain, first_name, last_name):
     url = f"https://api.hunter.io/v2/email-finder?domain={company_domain}&first_name={first_name}&last_name={last_name}&api_key={API_KEY}"
