@@ -20,9 +20,11 @@ def search_marketing_officer(company_name):
     ]
     
     for query in queries:
+        # Correctly format the URL with the search query
         google_search_url = f"https://www.google.com/search?q={query}"
         # Make the entire URL clickable
         st.markdown(f'<a href="{google_search_url}" target="_blank">{google_search_url}</a>', unsafe_allow_html=True)
+
 
 
 
