@@ -21,7 +21,9 @@ def search_marketing_officer(company_name):
     
     for query in queries:
         google_search_url = f"https://www.google.com/search?q={query}"
-        st.markdown(f'<a href="{google_search_url}" target="_blank">Click here to search for "{company_name}" on Google</a>', unsafe_allow_html=True)
+        # Make the entire URL clickable
+        st.markdown(f'<a href="{google_search_url}" target="_blank">{google_search_url}</a>', unsafe_allow_html=True)
+
 
 
 def find_email(company_domain, first_name, last_name):
